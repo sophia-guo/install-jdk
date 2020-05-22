@@ -4017,6 +4017,7 @@ function installJDK(version, arch, source, sourceType, archiveBasePath, useArchi
             jdkDir = yield decompressArchive(jdkFile, compressedFileExtension, archiveBasePath, useArchiveBasePath, tempDir);
             core.info(`jdkdir when adding to the toopath after decompressArchine is ${jdkFile}`);
             toolPath = yield tc.cacheDir(jdkDir, cacheEntry, "1.0.0", arch);
+            core.info(`toolpaht si ${toolPath}`);
         }
         targets.split(";").forEach(function (value) {
             if (value === "JAVA_HOME")
@@ -4049,7 +4050,9 @@ function decompressArchive(repoRoot, fileEnding, archiveBasePath, useArchiveBase
             core.info(`readirsysnc is ${fs.readdirSync(destinationFolder)[0]}`);
             if (useArchiveBasePath && archiveBasePath)
                 jdkDirectory = path.join(jdkDirectory, archiveBasePath);
+            core.info(`jdidirectory after jouin archiveabasthPathis ${jdkDirectory}`);
             yield unpackJars(jdkDirectory, path.join(jdkDirectory, "bin"));
+            core.info(`jdidirectory after unpachJars is ${jdkDirectory}`);
             return jdkDirectory;
         }
         else if (stats.isDirectory()) {

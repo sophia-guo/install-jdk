@@ -112,6 +112,7 @@ export async function installJDK(
             "1.0.0",
             arch
         );
+        core.info(`toolpaht si ${toolPath}`)
     }
 
     targets.split(";").forEach(function (value) {
@@ -149,9 +150,9 @@ async function decompressArchive(
         core.info(`jdidirectory after jouin destionationfolder and reddiresycn is ${jdkDirectory}`)
         core.info(`readirsysnc is ${fs.readdirSync(destinationFolder)[0]}`)
         if (useArchiveBasePath && archiveBasePath) jdkDirectory = path.join(jdkDirectory, archiveBasePath);
-
+        core.info(`jdidirectory after jouin archiveabasthPathis ${jdkDirectory}`)
         await unpackJars(jdkDirectory, path.join(jdkDirectory, "bin"));
-
+        core.info(`jdidirectory after unpachJars is ${jdkDirectory}`)
         return jdkDirectory;
     } else if (stats.isDirectory()) {
         return jdkFile;
