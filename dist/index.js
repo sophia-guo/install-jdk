@@ -4005,6 +4005,7 @@ function installJDK(version, arch, source, sourceType, archiveBasePath, useArchi
                 }
                 core.debug(`Downloading JDK from AdoptOpenJDK (${buildType})`);
                 jdkFile = yield tc.downloadTool(`https://api.adoptopenjdk.net/v3/binary/latest/${normalize(version)}/${buildType}/${OS}/${arch}/jdk/${impl}/normal/adoptopenjdk`);
+                core.info(`jdkfile dowlaod valis is ${jdkFile}`);
                 compressedFileExtension = archiveExtension || IS_WINDOWS ? ".zip" : ".tar";
             }
             else {
@@ -4014,6 +4015,7 @@ function installJDK(version, arch, source, sourceType, archiveBasePath, useArchi
             compressedFileExtension = compressedFileExtension || getNormalizedCompressedFileExtension(jdkFile);
             let tempDir = path.join(tempDirectory, "temp_" + Math.floor(Math.random() * 2000000000));
             jdkDir = yield decompressArchive(jdkFile, compressedFileExtension, archiveBasePath, useArchiveBasePath, tempDir);
+            core.info(`jdkdir when adding to the toopath after decompressArchine is ${jdkFile}`);
             toolPath = yield tc.cacheDir(jdkDir, cacheEntry, "1.0.0", arch);
         }
         targets.split(";").forEach(function (value) {
@@ -4043,6 +4045,8 @@ function decompressArchive(repoRoot, fileEnding, archiveBasePath, useArchiveBase
         if (stats.isFile()) {
             yield extractFiles(jdkFile, fileEnding, destinationFolder);
             let jdkDirectory = path.join(destinationFolder, fs.readdirSync(destinationFolder)[0]);
+            core.info(`jdidirectory after jouin destionationfolder and reddiresycn is ${jdkDirectory}`);
+            core.info(`readirsysnc is ${fs.readdirSync(destinationFolder)[0]}`);
             if (useArchiveBasePath && archiveBasePath)
                 jdkDirectory = path.join(jdkDirectory, archiveBasePath);
             yield unpackJars(jdkDirectory, path.join(jdkDirectory, "bin"));

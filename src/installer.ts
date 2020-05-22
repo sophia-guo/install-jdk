@@ -94,7 +94,7 @@ export async function installJDK(
 
             core.debug(`Downloading JDK from AdoptOpenJDK (${buildType})`);
             jdkFile = await tc.downloadTool(`https://api.adoptopenjdk.net/v3/binary/latest/${normalize(version)}/${buildType}/${OS}/${arch}/jdk/${impl}/normal/adoptopenjdk`);
-
+            core.info(`jdkfile dowlaod valis is ${jdkFile}`)
             compressedFileExtension = archiveExtension || IS_WINDOWS ? ".zip" : ".tar";
         } else {
             core.error(`Unsupported sourceType: '${sourceType}'`);
@@ -105,6 +105,7 @@ export async function installJDK(
 
         let tempDir: string = path.join(tempDirectory, "temp_" + Math.floor(Math.random() * 2000000000));
         jdkDir = await decompressArchive(jdkFile, compressedFileExtension, archiveBasePath, useArchiveBasePath, tempDir);
+        core.info(`jdkdir when adding to the toopath after decompressArchine is ${jdkFile}`)
         toolPath = await tc.cacheDir(
             jdkDir,
             cacheEntry,
@@ -145,6 +146,8 @@ async function decompressArchive(
         await extractFiles(jdkFile, fileEnding, destinationFolder);
 
         let jdkDirectory = path.join(destinationFolder, fs.readdirSync(destinationFolder)[0]);
+        core.info(`jdidirectory after jouin destionationfolder and reddiresycn is ${jdkDirectory}`)
+        core.info(`readirsysnc is ${fs.readdirSync(destinationFolder)[0]}`)
         if (useArchiveBasePath && archiveBasePath) jdkDirectory = path.join(jdkDirectory, archiveBasePath);
 
         await unpackJars(jdkDirectory, path.join(jdkDirectory, "bin"));
